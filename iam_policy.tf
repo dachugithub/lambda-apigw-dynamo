@@ -8,7 +8,8 @@ resource "aws_iam_policy" "dynamoaccess" {
   "Statement": [
     {
       "Action": [
-        "dynamodb:ListTables"
+        "dynamodb:ListTables",
+        "dynamodb:PutItem"
       ],
       "Effect": "Allow",
       "Resource": "arn:aws:dynamodb:eu-west-2:231770106020:table/*"

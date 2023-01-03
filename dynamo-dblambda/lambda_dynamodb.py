@@ -17,7 +17,7 @@ def list_tables():
         tables = []
         for table in dynamodb.tables.all():
             print(table.name)
-            tables.append(table)
+            tables.append(table.name)
     except ClientError as err:
         logger.error(
             "Couldn't list tables. Here's why: %s: %s",
@@ -33,16 +33,16 @@ def lambda_handler(event, context):
     action = json.loads(event["body"]).get("action")
     record = json.loads(event["body"]).get("record")
     json_region = os.environ["AWS_REGION"]
-    tables = list_tables()
-    print(tables)
-
+    tb = list_tables()
+    print(tb)
+    put_response = dynamotb.put_item(Item=record)
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
         "body": json.dumps(
             {
                 "Region ": json_region,
-                "Tables": list(tables),
+                "Tables": tb,
                 "action": action,
                 "record": record,
             }
